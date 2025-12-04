@@ -1,0 +1,12 @@
+# Ignore the Python Environment
+venv/
+__pycache__/
+
+# Ignore the Vector Database (Each device builds its own brain)
+99_System/vector_db/
+
+# Ignore system logs
+99_System/logs/
+
+# Ignore git internal files (optional, but recommended if using git separately)
+.git/
