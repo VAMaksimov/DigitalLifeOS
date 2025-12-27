@@ -7,14 +7,6 @@
 # initializes Git for version control, and sets up the Python environment
 # for your AI agents.
 
-BASE_DIR="$HOME/LifeOS"
-
-echo "🚀 Initializing LifeOS at $BASE_DIR..."
-
-# 1. Create Directory Structure (Based on PARA Method + Logs)
-mkdir -p "$BASE_DIR"
-cd "$BASE_DIR"
-
 # Projects: Active tasks with deadlines
 mkdir -p "01_Projects"
 # Areas: Ongoing responsibilities (Health, Finances, Coding)
@@ -30,7 +22,6 @@ mkdir -p "99_System/scripts"
 mkdir -p "99_System/vector_db"
 mkdir -p "99_System/logs"
 
-echo "✅ Directory structure created."
 
 # 2. Create Initial Markdown Files
 echo "# LifeOS Dashboard" > "Dashboard.md"
@@ -46,11 +37,10 @@ echo "__pycache__/" >> .gitignore
 echo "*.env" >> .gitignore
 git add .
 git commit -m "Initial LifeOS Commit"
+git remote add origin git@github.com:VAMaksimov/DigitalLifeOS.git
 
-echo "✅ Git repository initialized."
 
 # 4. Python Environment Setup
-echo "🐍 Setting up Python Virtual Environment..."
 python3 -m venv venv
 source venv/bin/activate
 
@@ -60,13 +50,12 @@ source venv/bin/activate
 # google-generativeai: For Gemini
 # telethon: For Telegram automation
 # watchdog: For monitoring file changes
-pip install langchain langchain-community langchain-google-genai chromadb google-generativeai telethon watchdog python-dotenv
+pip install -r requirements.txt
 
 # Create a sample .env file
-echo "GOOGLE_API_KEY=your_key_here" > .env
-echo "TELEGRAM_API_ID=your_id_here" >> .env
-echo "TELEGRAM_API_HASH=your_hash_here" >> .env
+echo "GOOGLE_API_KEY=" > .env
+echo "TELEGRAM_API_ID=" >> .env
+echo "TELEGRAM_API_HASH=" >> .env
+echo "LIFE_OS_PATH=$HOME/LifeOS" >> .env
+echo "API_TOKEN=" >> .env
 
-echo "✅ Python environment ready."
-echo "⚠️  Action Required: Edit $BASE_DIR/.env with your actual API keys."
-echo "🎉 LifeOS Setup Complete! Location: $BASE_DIR"
