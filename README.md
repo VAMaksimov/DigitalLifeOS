@@ -79,3 +79,70 @@ gemini "Read ~/LifeOS/00_Inbox/Daily_Log.md and summarize my key achievements to
 4. Next Steps for Expansion
    Calendar: Use the Google Calendar API in Python to let the Agent read your schedule.
    TaskWarrior: If plain text to-dos are too simple, install TaskWarrior on Linux and export the list to JSON for the AI to read.
+
+# API Endpoints Examples
+
+Here are some curl commands to test the API endpoints:
+
+## Creating and Viewing Documents
+
+To create a document and obtain its ID, use the `POST /documents` endpoint:
+
+```bash
+curl -X POST "http://127.0.0.1:8000/documents" \
+ -H "Content-Type: application/json" \
+ -H "Authorization: Bearer $API_TOKEN" \
+ -d '{
+"content": "This is a test document about software engineering",
+"metadata": {"source": "test_script", "author": "gemini"}
+}'
+```
+
+- Note the `id` from the response for update/delete operations.
+
+To view document content, you can use the `POST /documents/search` endpoint. You can search using keywords and specify the number of results (`k`).
+
+```bash
+curl -X POST "http://127.0.0.1:8000/documents/search" \
+ -H "Content-Type: application/json" \
+ -H "Authorization: Bearer $API_TOKEN" \
+ -d '{
+"query_text": "software engineering",
+"k": 2
+}'
+```
+
+The results will contain the `id`, `content` and `metadata` of the matching documents.
+
+## Updating a Document
+
+To update a document, use the `PUT /documents/{doc_id}` endpoint, replacing `<DOC_ID>` with the ID obtained from the create operation:
+
+```bash
+curl -X PUT "http://127.0.0.1:8000/documents/<DOC_ID>" \
+ -H "Content-Type: application/json" \
+ -H "Authorization: Bearer $API_TOKEN" \
+ -d '{
+"content": "This is an updated document about software development best practices.",
+"metadata": {"source": "test_script", "author": "gemini"},
+"version": "2"
+}'
+```
+
+## Deleting a Document
+
+To delete a document, use the `DELETE /documents/{doc_id}` endpoint, replacing `<DOC_ID>` with the ID of the document:
+
+```bash
+curl -X DELETE "http://127.0.0.1:8000/documents/<DOC_ID>" \
+ -H "Authorization: Bearer $API_TOKEN"
+```
+
+## Triggering a Full Database Re-index
+
+To re-index the entire database, use the `POST /update` endpoint:
+
+```bash
+curl -X POST "http://127.0.0.1:8000/update" \
+ -H "Authorization: Bearer $API_TOKEN"
+```
